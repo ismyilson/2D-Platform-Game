@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum GameState
+public enum GameState
 {
     GAME_RUNNING,
-    GAME_PAUSED
+    GAME_PAUSED,
+    GAME_GAMEOVER
 }
 
 public class Game : MonoBehaviour
@@ -42,6 +43,11 @@ public class Game : MonoBehaviour
     {
         return CurrentState.Equals(GameState.GAME_PAUSED);
     }
+    
+    public static GameState GetGameState()
+    {
+        return CurrentState;
+    }
 
     public static void PauseGame()
     {
@@ -67,6 +73,13 @@ public class Game : MonoBehaviour
 
         Player.SetInvencible(false);
         Player.SetCanMove(true);
+    }
+
+    public static void GameOver()
+    {
+        Debug.Log("Game over");
+
+        CurrentState = GameState.GAME_GAMEOVER;
     }
 
     static GameState CurrentState;

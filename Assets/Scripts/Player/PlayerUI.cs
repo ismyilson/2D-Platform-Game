@@ -179,7 +179,7 @@ public class PlayerUI : MonoBehaviour
         GameObject child = new GameObject("Health" + (LivesCount + 1));
         child.transform.parent = LivesContainer.transform;
 
-        child.transform.position = new Vector2(50.0f + (80.0f * LivesCount), 50.0f);
+        child.transform.position = new Vector2(50.0f + (80.0f * LivesCount), Screen.height - 50.0f);
 
         Image img = child.AddComponent<Image>() as Image;
         img.sprite = EmptyHealthSprite;

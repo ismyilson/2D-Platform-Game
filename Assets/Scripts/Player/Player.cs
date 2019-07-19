@@ -28,8 +28,8 @@ public class Player : MonoBehaviour
         SetMaxHealth(3);
         SetHealth(3);
         SetPlayerName("Albert");
-        SetMovementSpeed(0.05f);
-        SetJumpSpeed(5.0f);
+        SetMovementSpeed(0.08f);
+        SetJumpSpeed(8.0f);
     }
 
     void FixedUpdate()
@@ -59,6 +59,11 @@ public class Player : MonoBehaviour
         Me.velocity = new Vector2(Me.velocity.x, GetJumpSpeed());
     }
 
+    public void TakeDamage(int Damage)
+    {
+        SetHealth(GetHealth() - Damage);
+    }
+
     public void SetHealth(int value)
     {
         if (value > MaxHealth)
@@ -73,6 +78,11 @@ public class Player : MonoBehaviour
         Health = value;
         
         MyUI.UpdateHealth();
+
+        if (Health <= 0)
+        {
+            Game.GameOver();
+        }
     }
 
     public int GetHealth()
