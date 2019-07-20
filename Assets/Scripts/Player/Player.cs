@@ -27,7 +27,12 @@ public class Player : MonoBehaviour
 
         SetMaxHealth(3);
         SetHealth(3);
+
+        SetCanMove(true);
+        SetInvencible(false);
+
         SetPlayerName("Albert");
+
         SetMovementSpeed(0.08f);
         SetJumpSpeed(8.0f);
     }
@@ -39,6 +44,11 @@ public class Player : MonoBehaviour
 
     public void Move(bool right)
     {
+        if (!CanMove())
+        {
+            return;
+        }
+
         if (right)
         {
             Me.transform.position = new Vector2(Me.transform.position.x + GetMovementSpeed(), Me.transform.position.y);
@@ -51,6 +61,11 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
+        if (!CanMove())
+        {
+            return;
+        }
+
         if (IsJumping || IsFalling)
         {
             return;
@@ -61,6 +76,11 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int Damage)
     {
+        if (IsImmune())
+        {
+            return;
+        }
+
         SetHealth(GetHealth() - Damage);
     }
 

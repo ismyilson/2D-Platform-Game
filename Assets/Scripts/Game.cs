@@ -6,7 +6,8 @@ public enum GameState
 {
     GAME_RUNNING,
     GAME_PAUSED,
-    GAME_GAMEOVER
+    GAME_GAMEOVER,
+    GAME_FINISHED
 }
 
 public class Game : MonoBehaviour
@@ -24,8 +25,8 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Game is paused
-        if (CurrentState.Equals(GameState.GAME_PAUSED))
+        // If the game is not currently running, stop
+        if (!CurrentState.Equals(GameState.GAME_RUNNING))
         {
             return;
         }
@@ -60,6 +61,8 @@ public class Game : MonoBehaviour
 
         Player.SetInvencible(true);
         Player.SetCanMove(false);
+
+        // Show Pause screen
     }
 
     public static void UnpauseGame()
@@ -73,6 +76,8 @@ public class Game : MonoBehaviour
 
         Player.SetInvencible(false);
         Player.SetCanMove(true);
+
+        // Remove Pause screen
     }
 
     public static void GameOver()
@@ -80,6 +85,23 @@ public class Game : MonoBehaviour
         Debug.Log("Game over");
 
         CurrentState = GameState.GAME_GAMEOVER;
+
+        Player.SetInvencible(true);
+        Player.SetCanMove(false);
+
+        // Show GameOver screen
+    }
+
+    public static void FinishLevel()
+    {
+        Debug.Log("Level finished");
+
+        CurrentState = GameState.GAME_FINISHED;
+
+        Player.SetInvencible(true);
+        Player.SetCanMove(false);
+
+        // Show Finished Level screen
     }
 
     static GameState CurrentState;

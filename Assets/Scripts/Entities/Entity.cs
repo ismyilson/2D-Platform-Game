@@ -19,10 +19,15 @@ public class Entity : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Game.IsPaused())
+        if (!CanUpdate())
         {
             return;
         }
+    }
+
+    protected bool CanUpdate()
+    {
+        return Game.GetGameState().Equals(GameState.GAME_RUNNING);
     }
 
     protected void SendChatMessage(string message)

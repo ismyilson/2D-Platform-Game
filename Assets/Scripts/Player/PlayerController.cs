@@ -35,8 +35,6 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                // ShowMenu();
-
                 if (IsCurrentlyTalking())
                 {
                     return;
@@ -53,6 +51,11 @@ public class PlayerController : MonoBehaviour
                 
                 return; // Return because pausing disables everything else
             }
+        }
+
+        if (!Game.GetGameState().Equals(GameState.GAME_RUNNING))
+        {
+            return;
         }
 
         if (Input.anyKey)

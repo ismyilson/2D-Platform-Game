@@ -23,6 +23,16 @@ public class FallingBlock : Entity
 
     void FixedUpdate()
     {   
+        if (!CanUpdate())
+        {
+            if (transform.position.y >= OriginalY)
+            {
+                Me.velocity = new Vector2(0.0f, 0.0f);
+            }
+
+            return;
+        }
+
         if (HasFallen)
         {
             RecoverTimer += Time.deltaTime;
