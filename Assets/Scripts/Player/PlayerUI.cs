@@ -65,6 +65,25 @@ public class PlayerUI : MonoBehaviour
             Debug.LogError("Could not access UI_Chat");
         }
         ChatMessagePanel.SetActive(false);
+
+        // Setup spells
+        GameObject UISpellPanel = GameObject.Find("UI_Spells");
+        if (!UISpellPanel)
+        {
+            Debug.LogError("Could not access UI_Spells");
+        }
+
+        int MaxSpells = player.GetMaxSpells();
+        Spells = new Image[MaxSpells];
+        for (int i = 0; i < MaxSpells; ++i)
+        {
+            Image img = UISpellPanel.transform.GetChild(i).GetComponent<Image>();
+            if (img)
+            {
+                Spells[i] = img;
+            }
+        }
+
     }
 
     // Update is called once per frame
@@ -233,6 +252,16 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
+    public void SetSpellIcon(int id, Sprite icon)
+    {
+        if (id >= player.GetMaxSpells())
+        {
+            id = 0;
+        }
+        
+        Spells[id].sprite = icon;
+    }
+
     Player player;
 
     public Sprite EmptyHealthSprite;
@@ -241,9 +270,12 @@ public class PlayerUI : MonoBehaviour
     static GameObject ChatMessagePanel;
     static Image ChatMessageAvatar;
     static Text ChatMessageText;
+    static Entity CurrentTalkingEntity;
+
     static Text TimerText;
     static Text ScoreText;
-    static Entity CurrentTalkingEntity;
+    
+    static Image[] Spells;
 
     GameObject LivesContainer;
     int LivesCount;

@@ -35,6 +35,9 @@ public class Player : MonoBehaviour
 
         SetMovementSpeed(0.08f);
         SetJumpSpeed(8.0f);
+
+        Spells = new Spell[GetMaxSpells()];
+        SetSpell(0, AvailableSpells.SPELL_FIREBALL);
     }
 
     void FixedUpdate()
@@ -176,6 +179,37 @@ public class Player : MonoBehaviour
         return Score;
     }
 
+    public void SetSpell(int id, AvailableSpells aSpell)
+    {
+        if (id >= GetMaxSpells() || id < 0)
+        {
+            id = 0;
+        }
+
+        // Every spell must have an script attached here
+        Spell spell;
+        switch (aSpell)
+        {
+            case AvailableSpells.SPELL_FIREBALL:
+                spell = gameObject.AddComponent<Fireball>();
+                break;
+            
+            // Return if spell does not exist
+            default:
+                Debug.Log("Tried setting spell " + aSpell + "at id " + ", but does not exist.");
+                return;
+        }
+
+        Spells[id] = spell;
+
+        MyUI.SetSpellIcon(id, spell.GetIcon());
+    }
+
+    public int GetMaxSpells()
+    {
+        return MAX_SPELLS;
+    }
+
     public static void SetInvencible(bool enabled)
     {
         Invencible = enabled;
@@ -218,12 +252,12 @@ public class Player : MonoBehaviour
     Rigidbody2D Me;
     static PlayerUI MyUI;
 
-    public int Health;
-    public int MaxHealth;
+    private int Health;
+    private int MaxHealth;
 
-    public string PlayerName;
-    public float MovementSpeed;
-    public float JumpSpeed;
+    private string PlayerName;
+    private float MovementSpeed;
+    private float JumpSpeed;
 
     static int Score;
 
@@ -232,4 +266,7 @@ public class Player : MonoBehaviour
 
     public bool IsJumping;
     public bool IsFalling;
+
+    private Spell[] Spells;
+    private const int MAX_SPELLS = 3; // Max number of spell slots
 }
